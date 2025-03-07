@@ -10,6 +10,7 @@ function App() {
       <NotificationAPIProvider
         clientId={clientId}
         userId={userId}
+        playSoundOnNewNotification={true}
       >
         <h1>NotificationAPI Secure Mode Test</h1>
         <div>
