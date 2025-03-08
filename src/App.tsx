@@ -11,7 +11,6 @@ function App() {
         clientId={clientId}
         userId={userId}
         playSoundOnNewNotification={true}
-        customServiceWorkerPath="/notificationapi-test-frontend/notificationapi-service-worker.js"
       >
         <h1>NotificationAPI Secure Mode Test</h1>
         <div>
