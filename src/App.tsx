@@ -98,7 +98,7 @@ function App() {
         userId={userId}
         playSoundOnNewNotification={true}
         customServiceWorkerPath={`${window.location.origin}/notificationapi-test-frontend/notificationapi-service-worker.js`}
-        webPushOptInMessage={true}
+        webPushOptInMessage="AUTOMATIC"
       >
         <h1>NotificationAPI Secure Mode Test</h1>
         <NotificationControls />
