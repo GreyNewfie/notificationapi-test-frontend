@@ -61,14 +61,6 @@ function NotificationControls() {
     }
   }
 
-  useEffect(() => {
-    checkNotificationState()
-
-    // Set up periodic check for push subscription status
-    const checkInterval = setInterval(checkNotificationState, 5000)
-    return () => clearInterval(checkInterval)
-  }, [])
-
   const requestNotificationPermission = async () => {
     try {
       console.log('Requesting web push opt-in through NotificationAPI...')
@@ -106,7 +98,7 @@ function App() {
         userId={userId}
         playSoundOnNewNotification={true}
         customServiceWorkerPath={`${window.location.origin}/notificationapi-test-frontend/notificationapi-service-worker.js`}
-        webPushOptInMessage="AUTOMATIC"
+        webPushOptInMessage={true}
       >
         <h1>NotificationAPI Secure Mode Test</h1>
         <NotificationControls />
