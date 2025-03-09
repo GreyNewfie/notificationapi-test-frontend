@@ -72,7 +72,7 @@ function NotificationControls() {
   const requestNotificationPermission = async () => {
     try {
       console.log('Requesting web push opt-in through NotificationAPI...')
-      notificationapi.setWebPushOptIn(true)
+      await notificationapi.setWebPushOptIn(true)
       console.log('Web push opt-in requested')
       await checkNotificationState()
     } catch (error) {
@@ -88,11 +88,9 @@ function NotificationControls() {
       <button onClick={checkNotificationState}>
         Check Notification State
       </button>
-      {notificationStatus !== 'granted' && (
-        <button onClick={requestNotificationPermission}>
-          Enable Push Notifications
-        </button>
-      )}
+      <button onClick={requestNotificationPermission}>
+        Enable Push Notifications
+      </button>
     </div>
   )
 }
@@ -108,7 +106,7 @@ function App() {
         userId={userId}
         playSoundOnNewNotification={true}
         customServiceWorkerPath={`${window.location.origin}/notificationapi-test-frontend/notificationapi-service-worker.js`}
-        webPushOptInMessage={true}
+        webPushOptInMessage="AUTOMATIC"
       >
         <h1>NotificationAPI Secure Mode Test</h1>
         <NotificationControls />
