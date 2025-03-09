@@ -1,16 +1,44 @@
+/* Base styles and layout */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1a1a2e;
+  color: #e6e6e6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .app {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 h1 {
   margin-bottom: 2rem;
+  color: #4cc9f0;
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+}
+
+h4 {
+  color: #f72585;
+  margin: 1rem 0;
+  font-size: 1.3rem;
 }
 
 p {
   margin: 0.5rem 0;
+  font-size: 1rem;
 }
 
 .logo {
@@ -47,4 +75,188 @@ p {
 
 .read-the-docs {
   color: #888;
+}
+
+/* Login form styles */
+.login-form {
+  max-width: 350px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 10px;
+  background: rgba(30, 30, 60, 0.7);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-form h2 {
+  color: #4cc9f0;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.login-form div {
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+  text-align: left;
+  color: #e6e6e6;
+  font-weight: 500;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+
+.login-form input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.5);
+}
+
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  background: #4361ee;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.login-form button:hover {
+  background: #3a56d4;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+}
+
+/* Notification controls styles */
+.notification-controls {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.user-info {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 10px;
+  background: rgba(30, 30, 60, 0.7);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-info p {
+  font-size: 1.1rem;
+  margin: 8px 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* Specific button styles for notification control buttons */
+.button-group button {
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  min-width: 180px;
+}
+
+/* Check Notification State button */
+.button-group button:nth-child(1) {
+  background: #4361ee;
+}
+
+.button-group button:nth-child(1):hover {
+  background: #3a56d4;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+}
+
+/* Enable Push Notifications button */
+.button-group button:nth-child(2) {
+  background: #f72585;
+}
+
+.button-group button:nth-child(2):hover {
+  background: #e01e79;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(247, 37, 133, 0.4);
+}
+
+/* User logout button */
+.user-info button {
+  padding: 8px 16px;
+  background: #4cc9f0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.user-info button:hover {
+  background: #3ab7dc;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 201, 240, 0.4);
+}
+
+.status-info {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 10px;
+  background: rgba(30, 30, 60, 0.7);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-info p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+/* Error message styling */
+.error-message {
+  color: #ff4d6d;
+  font-weight: 500;
+  padding: 10px;
+  margin: 10px 0;
+  background: rgba(255, 77, 109, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid #ff4d6d;
+}
+
+/* Remove default styles */
+.logo, .card, .read-the-docs {
+  display: none;
 }

@@ -2,11 +2,62 @@ import { NotificationAPIProvider, NotificationPopup } from '@notificationapi/rea
 import { useState } from 'react'
 import './App.css'
 
-function NotificationControls() {
+interface UserInfo {
+  id: string;
+  email: string;
+}
+
+function UserLoginForm({ onSubmit }: { onSubmit: (userInfo: UserInfo) => void }) {
+  const [userId, setUserId] = useState('')
+  const [email, setEmail] = useState('')
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (userId && email) {
+      // Save to localStorage for persistence
+      const userInfo = { id: userId, email }
+      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      onSubmit(userInfo)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="login-form">
+      <h2>Enter User Details</h2>
+      <div>
+        <label>
+          User ID:
+          <input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            required
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+      </div>
+      <button type="submit">Set User</button>
+    </form>
+  )
+}
+
+function NotificationControls({ userInfo }: { userInfo: UserInfo }) {
   const notificationapi = NotificationAPIProvider.useNotificationAPIContext()
   const [notificationStatus, setNotificationStatus] = useState<string>('')
+  const [error, setError] = useState<string>('')
 
   const checkNotificationState = async () => {
+    setError('')
     // Log origin and protocol
     console.log('Current origin:', window.location.origin)
     console.log('Current protocol:', window.location.protocol)
@@ -52,16 +103,19 @@ function NotificationControls() {
               console.log('Push permission state:', options)
             } catch (error) {
               console.error('Error checking push support:', error)
+              setError('Error checking push support. Please try again.')
             }
           }
         }
       } catch (error) {
         console.error('Error checking service worker state:', error)
+        setError('Error checking service worker state. Please refresh the page.')
       }
     }
   }
 
   const requestNotificationPermission = async () => {
+    setError('')
     try {
       console.log('Requesting web push opt-in through NotificationAPI...')
       await notificationapi.setWebPushOptIn(true)
@@ -69,40 +123,68 @@ function NotificationControls() {
       await checkNotificationState()
     } catch (error) {
       console.error('Error requesting notification permission:', error)
+      setError('Failed to enable notifications. Please try refreshing the page.')
     }
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('userInfo')
+    window.location.reload()
+  }
+
   return (
-    <div>
+    <div className="notification-controls">
+      <div className="user-info">
+        <h4>Current User</h4>
+        <p>ID: {userInfo.id}</p>
+        <p>Email: {userInfo.email}</p>
+        <button onClick={handleLogout}>Change User</button>
+      </div>
       <h4>Here are your notifications!</h4>
-      <p>Notification Permission Status: {notificationStatus}</p>
-      <p>Protocol: {window.location.protocol}</p>
-      <button onClick={checkNotificationState}>
-        Check Notification State
-      </button>
-      <button onClick={requestNotificationPermission}>
-        Enable Push Notifications
-      </button>
+      <div className="status-info">
+        <p>Notification Permission Status: {notificationStatus}</p>
+        <p>Protocol: {window.location.protocol}</p>
+        {error && <p className="error-message">{error}</p>}
+      </div>
+      <div className="button-group">
+        <button onClick={checkNotificationState}>
+          Check Notification State
+        </button>
+        <button onClick={requestNotificationPermission}>
+          Enable Push Notifications
+        </button>
+      </div>
     </div>
   )
 }
 
 function App() {
-  const userId = import.meta.env.VITE_USER_ID
   const clientId = import.meta.env.VITE_CLIENT_ID
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(() => {
+    const saved = localStorage.getItem('userInfo')
+    return saved ? JSON.parse(saved) : null
+  })
+
+  if (!userInfo) {
+    return <UserLoginForm onSubmit={setUserInfo} />
+  }
 
   return (
     <div className="app">
       <NotificationAPIProvider
         clientId={clientId}
-        userId={userId}
+        userId={userInfo.id}
+        user={{
+          id: userInfo.id,
+          email: userInfo.email
+        }}
         playSoundOnNewNotification={true}
         customServiceWorkerPath={`${window.location.origin}/notificationapi-test-frontend/notificationapi-service-worker.js`}
         webPushOptInMessage="AUTOMATIC"
       >
         <h1>NotificationAPI Secure Mode Test</h1>
-        <NotificationControls />
-        <NotificationPopup />
+        <NotificationControls userInfo={userInfo} />
+        <NotificationPopup iconColor='#ffffff'/>
       </NotificationAPIProvider>
     </div>
   )
